@@ -9,10 +9,16 @@ body {
 }
 h1,
 h2,
-h3,h4 {
+h3 {
   line-height: 1.2;
   position: relative;
   padding: 10px 0;
+}
+
+h4 {
+  line-height: 1;
+  position: relative;
+  padding: 0;
 }
 @media (prefers-color-scheme: dark) {
   body {
@@ -29,51 +35,48 @@ h3,h4 {
 
 /* Utilities */
 
-.mono{
+.mono {
   font-family: monospace;
 }
 
-ul{
-    display: inline;
+ul {
+  display: inline;
 }
 
-.overview{
-    border: 2px dashed;
-    padding: 20px;
+.overview {
+  border: 2px dashed;
+  padding: 20px;
 }
 .container {
-  display: grid; 
-  grid-template-columns: 1fr 1fr; 
-  grid-template-rows: 1fr 1fr 1fr 1fr; 
-  gap: 20px 20px; 
-  grid-template-areas: 
-    ". ."
-    ". ."
-    ". ."
-    ". ."; 
-    padding: 20px 0 20px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 20px 20px;
+  grid-template-areas: ". .";
+  padding: 20px 0 20px 0;
+  grid-auto-rows: minmax(min-content, max-content);
 }
 
-.project{
+.project {
   padding: 10px;
+  margin-bottom: auto;
 }
 
-.project-title{
+.project-title {
   line-height: 1;
 }
 
-code{
+code {
   display: block;
   line-height: 2;
 }
 
-.project-description{
-  min-height: 150px;
+.project-description {
   display: flex;
-  font: 18px/1.5 'Courier New', Courier, monospace;
+  font: 18px/1.5 "Courier New", Courier, monospace;
 }
 
-.flow::before {  
+.flow::before {
   transform: scaleX(0);
   transform-origin: bottom right;
 }
@@ -87,11 +90,14 @@ code{
   content: " ";
   display: block;
   position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   inset: 0 0 0 0;
   background: hsl(201.2, 7.6%, 43.7%);
   z-index: -1;
-  transition: transform .3s ease;
+  transition: transform 0.3s ease;
   color: black;
 }
 
@@ -105,7 +111,7 @@ code{
   color: #fff;
   border-radius: 5px;
   padding: 10px 25px;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 500;
   text-align: center;
   background: transparent;
@@ -113,82 +119,85 @@ code{
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
-   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
-   7px 7px 20px 0px rgba(0,0,0,.1),
-   4px 4px 5px 0px rgba(0,0,0,.1);
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
   outline: none;
 }
 
 .btn-7 {
-  background: linear-gradient(0deg, rgba(255,151,0,1) 0%, rgba(251,75,2,1) 100%);
-    line-height: 42px;
-    padding: 0;
-    border: none;
-  }
-  .btn-7 span {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 100%;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  }
-  .btn-7:before,
-  .btn-7:after {
-    position: absolute;
-    content: "";
-    right: 0;
-    bottom: 0;
-    background: rgba(251,75,2,1);
-    
-    transition: all 0.3s ease;
-  }
-  .btn-7:before{
-     height: 0%;
-     width: 2px;
-  }
-  .btn-7:after {
-    width: 0%;
-    height: 2px;
-  }
-  .btn-7:hover{
-    color: rgba(251,75,2,1);
-    background: transparent;
-  }
-  .btn-7:hover:before {
-    height: 100%;
-  }
-  .btn-7:hover:after {
-    width: 100%;
-  }
-  .btn-7 span:before,
-  .btn-7 span:after {
-    position: absolute;
-    content: "";
-    left: 0;
-    top: 0;
-    background: rgba(251,75,2,1);
-    
-    transition: all 0.3s ease;
-  }
-  .btn-7 span:before {
-    width: 2px;
-    height: 0%;
-  }
-  .btn-7 span:after {
-    height: 2px;
-    width: 0%;
-  }
-  .btn-7 span:hover:before {
-    height: 100%;
-  }
-  .btn-7 span:hover:after {
-    width: 100%;
-  }
-  
+  background: linear-gradient(
+    0deg,
+    rgba(255, 151, 0, 1) 0%,
+    rgba(251, 75, 2, 1) 100%
+  );
+  line-height: 42px;
+  padding: 0;
+  border: none;
+}
+.btn-7 span {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.btn-7:before,
+.btn-7:after {
+  position: absolute;
+  content: "";
+  right: 0;
+  bottom: 0;
+  background: rgba(251, 75, 2, 1);
+
+  transition: all 0.3s ease;
+}
+.btn-7:before {
+  height: 0%;
+  width: 2px;
+}
+.btn-7:after {
+  width: 0%;
+  height: 2px;
+}
+.btn-7:hover {
+  color: rgba(251, 75, 2, 1);
+  background: transparent;
+}
+.btn-7:hover:before {
+  height: 100%;
+}
+.btn-7:hover:after {
+  width: 100%;
+}
+.btn-7 span:before,
+.btn-7 span:after {
+  position: absolute;
+  content: "";
+  left: 0;
+  top: 0;
+  background: rgba(251, 75, 2, 1);
+
+  transition: all 0.3s ease;
+}
+.btn-7 span:before {
+  width: 2px;
+  height: 0%;
+}
+.btn-7 span:after {
+  height: 2px;
+  width: 0%;
+}
+.btn-7 span:hover:before {
+  height: 100%;
+}
+.btn-7 span:hover:after {
+  width: 100%;
+}
+
 /* Typing CSS */
 .typing-text {
   width: 22ch;
-  animation: typing 2s steps(22), blink .5s step-end infinite alternate;
+  animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
   white-space: nowrap;
   overflow: hidden;
   border-right: 3px solid;
@@ -198,33 +207,23 @@ code{
 
 @keyframes typing {
   from {
-    width: 0
+    width: 0;
   }
 }
-    
+
 @keyframes blink {
   50% {
-    border-color: transparent
+    border-color: transparent;
   }
 }
-
-
 
 /* Mobile CSS */
 
-@media only screen and (max-width: 768px){
-  .container{
+@media only screen and (max-width: 768px) {
+  .container {
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: 
-    "."
-    "."
-    "."
-    "."
-    "."
-    "."
-    "."
-    "."; 
+    grid-template: 1fr/1fr;
+    grid-template-areas:
+      ".";
   }
 }
