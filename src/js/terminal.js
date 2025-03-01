@@ -6,7 +6,7 @@ class Terminal {
     this.element = element;
     this.options = {
       welcomeMessage:
-        options.welcomeMessage || "Welcome to my terminal portfolio!",
+        options.welcomeMessage || "Welcome to varunkakkar.github.io!",
       promptString: options.promptString || "visitor@varunkakkar.github.io:~$ ",
       typingSpeed: options.typingSpeed || 50,
       maxHistory: options.maxHistory || 100,
