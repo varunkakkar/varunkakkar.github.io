@@ -5,8 +5,8 @@
 
 class BlogLoader {
   constructor() {
-    this.manifestPath = "blogs/blog-manifest.json";
-    this.blogPath = "blogs/";
+    this.manifestPath = "../../blogs/blog-manifest.json";
+    this.blogPath = "../../blogs/";
     this.manifest = null;
     this.posts = [];
   }
