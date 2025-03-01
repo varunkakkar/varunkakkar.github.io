@@ -62,6 +62,8 @@ html {
 .terminal-content {
   position: relative;
   z-index: 2;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .line {
@@ -178,6 +180,48 @@ code {
   .ascii-art {
     font-size: 10px;
     overflow-x: auto;
+  }
+
+  .line {
+    margin: 8px 0; /* Increase spacing between lines */
+  }
+
+  .prompt {
+    font-size: 14px;
+  }
+
+  .command {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .cursor {
+    height: 16px; /* Adjust cursor size */
+  }
+
+  pre,
+  code {
+    font-size: 12px; /* Smaller code blocks on mobile */
+    padding: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+
+  .ascii-art {
+    font-size: 8px; /* Smaller ASCII art on mobile */
+    line-height: 1.2;
+    overflow-x: auto;
+  }
+
+  /* Improve touch targets */
+  a {
+    padding: 6px 0; /* Larger touch target for links */
+  }
+
+  /* Better handling of long commands */
+  .input-line {
+    word-break: break-all;
+    white-space: pre-wrap;
   }
 }
 
