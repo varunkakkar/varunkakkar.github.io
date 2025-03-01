@@ -1,0 +1,40 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "Building a Terminal Portfolio",
+      "slug": "building-terminal-portfolio",
+      "date": "May 15, 2023",
+      "tags": [
+        "JavaScript",
+        "CSS",
+        "Portfolio"
+      ],
+      "filename": "terminal-portfolio.md"
+    },
+    {
+      "id": 2,
+      "title": "CSS Variables: A Game Changer for Theme Switching",
+      "slug": "css-variables-theme-switching",
+      "date": "June 3, 2023",
+      "tags": [
+        "CSS",
+        "Web Design",
+        "Frontend"
+      ],
+      "filename": "css-variables.md"
+    },
+    {
+      "id": 3,
+      "title": "The Underrated Power of JavaScript Generators",
+      "slug": "javascript-generators",
+      "date": "July 21, 2023",
+      "tags": [
+        "JavaScript",
+        "Programming",
+        "Advanced"
+      ],
+      "filename": "javascript-generators.md"
+    }
+  ]
+}

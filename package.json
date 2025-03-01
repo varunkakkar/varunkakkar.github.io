@@ -1,0 +1,15 @@
+{
+  "name": "terminal-portfolio",
+  "version": "1.0.0",
+  "description": "A terminal-based portfolio website with hidden easter eggs.",
+  "main": "src/index.html",
+  "scripts": {
+    "start": "live-server src",
+    "build": "echo 'Build step can be added here'"
+  },
+  "dependencies": {
+    "live-server": "^1.2.1"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}
