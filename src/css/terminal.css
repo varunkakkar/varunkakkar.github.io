@@ -80,12 +80,18 @@ html {
 
 .input-line {
   display: flex;
+  flex-wrap: nowrap; /* Prevent wrapping */
+  align-items: center; /* Align items vertically */
+  width: 100%;
+  min-height: 24px;
 }
 
 .command {
   white-space: pre-wrap;
-  word-break: break-all;
+  word-break: break-word; /* Changed from break-all to break-word */
   flex: 1;
+  min-width: 0; /* Allow flex item to shrink below content size */
+  display: inline-block; /* Keep text inline */
 }
 
 /* Cursor for contentEditable command element */
@@ -220,8 +226,17 @@ code {
 
   /* Better handling of long commands */
   .input-line {
-    word-break: break-all;
-    white-space: pre-wrap;
+    white-space: pre;
+    display: flex; /* Reinforce flex display */
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .command {
+    white-space: pre; /* Prevent unwanted wrapping */
+    word-break: keep-all; /* Prevent breaking words */
+    display: inline-block;
+    min-height: 24px;
   }
 }
 
