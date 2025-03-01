@@ -6,11 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize terminal
   const terminalElement = document.getElementById("terminal");
   const terminal = new Terminal(terminalElement, {
-    welcomeMessage: `Welcome to my Terminal Portfolio!
-     =================================
-     
-     Type 'help' to see available commands.`,
-    promptString: "visitor@portfolio:~$ ",
+    welcomeMessage: `Welcome to varunkakkar.github.io!\n=================================\nType 'help' to see available commands.`,
+    promptString: "visitor@varunkakkar.github.io:~$ ",
     typingSpeed: 50,
   });
 

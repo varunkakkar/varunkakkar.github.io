@@ -362,11 +362,11 @@ Feel free to explore my work using the commands listed in 'help'.
             "currentTheme",
             document.documentElement.getAttribute("data-theme") || "dark"
           );
-          window.open(`blog-viewer.html?id=${id}`, "_blank");
+          window.open(`blog.html?id=${id}`, "_blank");
           this.terminal.printLine("Opening blog post...", "success");
         } else {
           // Assume it's a slug
-          window.open(`blog-viewer.html?slug=${query}`, "_blank");
+          window.open(`blog.html?slug=${query}`, "_blank");
           this.terminal.printLine("Opening blog post...", "success");
         }
       }

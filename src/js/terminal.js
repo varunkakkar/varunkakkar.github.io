@@ -7,7 +7,7 @@ class Terminal {
     this.options = {
       welcomeMessage:
         options.welcomeMessage || "Welcome to my terminal portfolio!",
-      promptString: options.promptString || "visitor@portfolio:~$ ",
+      promptString: options.promptString || "visitor@varunkakkar.github.io:~$ ",
       typingSpeed: options.typingSpeed || 50,
       maxHistory: options.maxHistory || 100,
       ...options,

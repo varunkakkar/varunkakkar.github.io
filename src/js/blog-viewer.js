@@ -116,7 +116,7 @@ async function setupNavigation(currentPostId) {
 }
 
 function navigateToBlogPost(postId) {
-  window.location.href = `blog-viewer.html?id=${postId}`;
+  window.location.href = `blog.html?id=${postId}`;
 }
 
 function updateMetaTags(post) {
