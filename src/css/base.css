@@ -1,0 +1,98 @@
+@import "variables.css";
+
+/* Reset and base styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: var(--font-size-base);
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-main);
+  line-height: var(--line-height-base);
+  color: var(--text);
+  background-color: var(--background);
+  transition: background-color var(--transition-speed) var(--transition-timing);
+}
+
+/* Common utilities */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--prompt) var(--background);
+}
+
+::-webkit-scrollbar {
+  width: var(--spacing-sm);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--prompt);
+  border-radius: var(--radius-sm);
+}
+
+/* Selection styling */
+::selection {
+  background-color: var(--selection-bg);
+  color: var(--text);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  @page {
+    margin: 2cm;
+  }
+
+  body {
+    color: #000;
+    background: #fff;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+}

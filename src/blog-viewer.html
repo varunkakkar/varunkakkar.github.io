@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Post | Terminal Portfolio</title>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/blog.css">
+  <meta name="description" content="Blog post from terminal-style portfolio website">
+
+  <!-- Open Graph / Social Media Tags -->
+  <meta property="og:title" content="Blog Post | Terminal Portfolio">
+  <meta property="og:description" content="Read this blog post from my terminal-style portfolio">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Terminal Portfolio">
+
+  <!-- Add favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+  <div class="blog-container">
+    <header>
+      <div class="terminal-header">
+        <div class="window-controls">
+          <div class="control-btn close-btn" title="Close"></div>
+          <div class="control-btn minimize-btn" title="Minimize"></div>
+          <div class="control-btn maximize-btn" title="Maximize"></div>
+        </div>
+        <div class="window-title">visitor@varunkakkar.github.io:~/blog</div>
+      </div>
+      <div class="return-bar">
+        <a href="index.html" class="return-link">
+          <span class="prompt-symbol">$</span> cd ..
+        </a>
+        <div class="theme-switcher blog-theme-switcher">
+          <!-- Theme options will be added by JS -->
+        </div>
+      </div>
+    </header>
+
+    <main id="blog-content">
+      <div class="blog-meta">
+        <h1 id="blog-title">Loading...</h1>
+        <div class="blog-info">
+          <span id="blog-date">--/--/----</span>
+          <div id="blog-tags" class="tags-container"></div>
+        </div>
+      </div>
+      <div id="blog-body">
+        <div class="terminal-loading">
+          <span>Loading post</span>
+          <span class="loading"></span>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="blog-navigation">
+        <a id="prev-post" class="nav-btn">← Previous Post</a>
+        <a href="index.html#blog" class="nav-btn">All Posts</a>
+        <a id="next-post" class="nav-btn">Next Post →</a>
+      </div>
+      <div class="blog-footer">
+        <div class="terminal-prompt">
+          <span class="prompt">visitor@varunkakkar.github.io:~/blog$</span>
+          <span class="cursor"></span>
+        </div>
+        <div class="share-buttons">
+          <span>Share this post:</span>
+          <!-- Will be populated by JS -->
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="js/blog-viewer.js"></script>
+  <script src="js/code-copy.js"></script>
+</body>
+
+</html>
