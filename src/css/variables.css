@@ -60,6 +60,15 @@
   --btn-close: #ff5f56;
   --btn-minimize: #ffbd2e;
   --btn-maximize: #27c93f;
+
+  /* Ensure theme variables are complete */
+  --theme-transition: background-color var(--transition-speed)
+      var(--transition-timing),
+    color var(--transition-speed) var(--transition-timing);
+
+  /* Add any missing theme-specific shadows */
+  --theme-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --theme-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Simplified theme variants with inheritance */

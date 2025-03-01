@@ -5,8 +5,7 @@ class Terminal {
   constructor(element, options = {}) {
     this.element = element;
     this.options = {
-      welcomeMessage:
-        options.welcomeMessage || "Welcome to vgi!",
+      welcomeMessage: options.welcomeMessage || "Welcome to vgi!",
       promptString: options.promptString || "visitor@vgi:~$ ",
       typingSpeed: options.typingSpeed || 50,
       maxHistory: options.maxHistory || 100,
@@ -94,16 +93,83 @@ class Terminal {
       const text = e.clipboardData.getData("text/plain");
       document.execCommand("insertText", false, text);
     };
+
+    // Add input event listener to update cursor position
+    command.addEventListener("input", this.updateCursorPosition.bind(this));
+
     inputLine.appendChild(command);
 
-    // Create cursor
+    // Create cursor as a separate element after the command
     const cursor = document.createElement("span");
     cursor.className = "cursor";
-    command.appendChild(cursor);
+    inputLine.appendChild(cursor);
 
     this.terminalContent.appendChild(inputLine);
     this.currentInput = command;
+    this.currentCursor = cursor;
     this.focusInput();
+
+    // Initial positioning of the cursor
+    this.updateCursorPosition();
+  }
+
+  // Improved method to update cursor position with better accuracy
+  updateCursorPosition() {
+    if (!this.currentInput || !this.currentCursor) return;
+
+    // Get the current selection
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return;
+
+    const range = selection.getRangeAt(0);
+
+    // Create a temporary range to measure text width
+    const tempRange = document.createRange();
+
+    try {
+      // Handle empty input or selection in different nodes
+      if (this.currentInput.childNodes.length === 0) {
+        this.currentInput.appendChild(document.createTextNode(""));
+      }
+
+      tempRange.setStart(this.currentInput, 0);
+      tempRange.setEnd(range.endContainer, range.endOffset);
+    } catch (e) {
+      // Fallback positioning if there's an error
+      const inputRect = this.currentInput.getBoundingClientRect();
+      this.currentCursor.style.position = "absolute";
+      this.currentCursor.style.left = `${inputRect.left}px`;
+      this.currentCursor.style.top = `${inputRect.top}px`;
+      this.currentCursor.style.height = `${inputRect.height}px`;
+      return;
+    }
+
+    // Get dimensions
+    const inputRect = this.currentInput.getBoundingClientRect();
+
+    // Get text content before cursor
+    const textBeforeCursor = tempRange.toString();
+
+    // Create a temporary span to measure text width accurately
+    const tempSpan = document.createElement("span");
+    tempSpan.style.visibility = "hidden";
+    tempSpan.style.position = "absolute";
+    tempSpan.style.whiteSpace = "pre";
+    tempSpan.style.font = window.getComputedStyle(this.currentInput).font;
+    tempSpan.textContent = textBeforeCursor || "";
+    document.body.appendChild(tempSpan);
+
+    // Calculate position
+    const cursorLeft = tempSpan.getBoundingClientRect().width;
+
+    // Position the cursor
+    this.currentCursor.style.position = "absolute";
+    this.currentCursor.style.left = `${inputRect.left + cursorLeft}px`;
+    this.currentCursor.style.top = `${inputRect.top}px`;
+    this.currentCursor.style.height = `${inputRect.height}px`;
+
+    // Clean up
+    document.body.removeChild(tempSpan);
   }
 
   focusInput() {
@@ -165,6 +231,9 @@ class Terminal {
         }
         break;
     }
+
+    // Update cursor position with a slight delay to ensure DOM has updated
+    setTimeout(() => this.updateCursorPosition(), 10);
   }
 
   handleCommand(commandText) {
@@ -178,8 +247,10 @@ class Terminal {
     this.historyIndex = this.history.length;
 
     // Remove cursor and make input non-editable
-    const cursor = this.currentInput.querySelector(".cursor");
-    if (cursor) cursor.remove();
+    if (this.currentCursor) {
+      this.currentCursor.remove();
+      this.currentCursor = null;
+    }
     this.currentInput.contentEditable = false;
 
     // Execute command
@@ -225,6 +296,9 @@ class Terminal {
 
     // Move cursor to end
     this.focusInput();
+
+    // Update cursor position after history navigation
+    setTimeout(() => this.updateCursorPosition(), 0);
   }
 
   handleTabCompletion() {

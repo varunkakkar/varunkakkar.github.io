@@ -1,3 +1,7 @@
+@import "variables.css";
+@import "fonts.css";
+@import "base.css";
+@import "main.css";
 /* General styles */
 * {
   box-sizing: border-box;

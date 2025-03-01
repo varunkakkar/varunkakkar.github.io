@@ -84,6 +84,7 @@ html {
   align-items: center; /* Align items vertically */
   width: 100%;
   min-height: 24px;
+  position: relative; /* Added for cursor positioning */
 }
 
 .command {
@@ -97,11 +98,13 @@ html {
 /* Cursor for contentEditable command element */
 .cursor {
   display: inline-block;
-  width: 10px;
+  width: 2px; /* Thinner cursor looks better for dynamic positioning */
   height: 18px;
   background-color: var(--text);
-  animation: blink 1s step-end infinite;
   vertical-align: middle;
+  position: absolute; /* Changed to absolute for dynamic positioning */
+  z-index: 10;
+  animation: blink 1s step-end infinite; /* Add blinking animation */
 }
 
 @keyframes blink {
@@ -226,15 +229,15 @@ code {
 
   /* Better handling of long commands */
   .input-line {
-    white-space: pre;
+    white-space: pre-wrap; /* Allow wrapping on mobile */
     display: flex; /* Reinforce flex display */
     overflow-x: auto; /* Allow horizontal scrolling if needed */
     -webkit-overflow-scrolling: touch;
   }
 
   .command {
-    white-space: pre; /* Prevent unwanted wrapping */
-    word-break: keep-all; /* Prevent breaking words */
+    white-space: pre-wrap; /* Allow wrapping on mobile */
+    word-break: break-word; /* Better word breaking for mobile */
     display: inline-block;
     min-height: 24px;
   }
@@ -294,135 +297,14 @@ code {
   }
 }
 
-/* Add these styles to your existing terminal.css file */
+/* Remove duplicate styles that were added at the end */
+/* Remove these redundant sections:
+.input-area, .input-field, .prompt-wrapper, 
+.cursor-container, .terminal-cursor, .focus-trap, 
+.history-item, .autocomplete
+*/
 
-/* Input field and cursor styles */
-.input-area {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  position: relative;
-  margin: 4px 0;
-}
-
-.input-field {
-  background-color: transparent;
-  border: none;
-  color: var(--text);
-  font-family: var(--font-main);
-  font-size: inherit;
-  outline: none;
-  caret-color: transparent; /* Hide default cursor */
-  flex-grow: 1;
-  margin: 0;
-  padding: 0;
-  line-height: 1.5;
-}
-
-.input-field::selection {
-  background-color: var(--selection-bg);
-  color: var(--text);
-}
-
-.prompt-wrapper {
-  display: flex;
-  align-items: center;
-  margin-right: 8px;
-}
-
-.cursor-container {
-  display: inline-block;
-  position: relative;
-}
-
-.terminal-cursor {
-  position: absolute;
-  top: 0;
-  right: -7px;
-  width: 8px;
-  height: 16px;
-  background-color: var(--text);
-  animation: blink 1s step-end infinite;
-}
-
-.focus-trap {
-  position: fixed;
-  width: 0;
-  height: 0;
-  top: 0;
-  left: 0;
-  opacity: 0;
-}
-
-/* Command history navigation and autocomplete styles */
-.history-item {
-  opacity: 0.6;
-  transition: opacity 0.2s;
-}
-
-.history-item:hover {
-  opacity: 1;
-}
-
-.autocomplete {
-  position: absolute;
-  color: var(--text);
-  opacity: 0.5;
-  pointer-events: none;
-  white-space: pre;
-}
-
-/* Mobile input adjustments */
-@media (max-width: 768px) {
-  .input-area {
-    font-size: 14px;
-  }
-
-  .terminal-cursor {
-    height: 14px;
-    width: 7px;
-  }
-}
-
-/* Special command styling */
-.command-highlight {
-  color: var(--success);
-  font-weight: bold;
-}
-
-/* Improved scrolling behavior */
-#terminal {
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: var(--prompt) var(--background);
-}
-
-/* Blog post styles */
-.code-block {
-  font-family: var(--font-main);
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-  border-left: 3px solid var(--prompt);
-  padding: 10px;
-  margin: 10px 0;
-  overflow-x: auto;
-  white-space: pre;
-  font-size: 0.9em;
-}
-
-/* Make sure links in blog posts stand out */
-.line a {
-  color: var(--link);
-  text-decoration: none;
-  border-bottom: 1px dashed var(--link);
-}
-
-.line a:hover {
-  border-bottom: 1px solid var(--link);
-}
-
-/* Add this to your terminal.js file to initialize the terminal cursor */
-
+/* Keep only one version of these styles */
 .terminal-content .line {
   min-height: 1.2em;
   line-height: 1.2;
