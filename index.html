@@ -3,13 +3,22 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Varun Kakkar | Portfolio</title>
-    <link rel="stylesheet" href="./src/css/styles.css">
-    <meta name="description" content="Interactive terminal-style portfolio website">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Portfolio - Varun Kakkar</title>
+    <link rel="stylesheet" href="src/css/base.css">
+    <link rel="stylesheet" href="src/css/terminal.css">
+    <link rel="stylesheet" href="src/css/main.css">
+    <!-- Prevent auto-focusing on mobile -->
+    <script>
+        // Prevent auto scroll on page load
+        window.addEventListener('load', function () {
+            window.scrollTo(0, 0);
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                document.body.style.overflow = '';
+            }, 100);
+        });
+    </script>
 </head>
 
 <body>
@@ -28,9 +37,9 @@
                 <div class="control-btn minimize-btn"></div>
                 <div class="control-btn maximize-btn"></div>
             </div>
-            <div class="window-title">visitor@vgi: ~/terminal</div>
+            <div class="window-title">terminal@portfolio: ~</div>
         </div>
-        <div id="terminal" class="terminal"></div>
+        <div id="terminal"></div>
     </div>
 
     <div class="side-decoration right">
@@ -40,8 +49,8 @@
         </svg>
     </div>
 
-    <!-- Scripts -->
-    <script type="module" src="./src/js/app.js"></script>
+    <!-- Use module type for ES6 imports -->
+    <script type="module" src="src/js/main.js"></script>
 </body>
 
 </html>

@@ -1,4 +1,3 @@
-/* filepath: /terminal-portfolio/src/js/terminal.js */
 import blogLoader from "./blog-loader.js";
 
 class Terminal {
@@ -16,6 +15,10 @@ class Terminal {
     this.historyIndex = -1;
     this.commandsHandler = null;
     this.easterEggs = null;
+
+    // Add initialization lock to prevent premature scrolling
+    this._initializing = true;
+    this._scrollLocked = false;
 
     this.init();
   }
@@ -49,6 +52,10 @@ class Terminal {
     // Create first prompt
     this.createNewInput();
 
+    // Remove the immediate scroll call during initialization
+    // Instead, use a proper initialization sequence
+    this.finalizeInitialization();
+
     // Add event listeners
     document.addEventListener("keydown", this.handleKeyDown.bind(this));
     this.element.addEventListener("click", () => {
@@ -58,16 +65,44 @@ class Terminal {
     });
   }
 
+  // New method for proper initialization sequence
+  finalizeInitialization() {
+    // Wait for next frame to ensure DOM is updated
+    requestAnimationFrame(() => {
+      // Wait for another frame to ensure styles are applied
+      requestAnimationFrame(() => {
+        // Set scroll position manually to top (prevents auto-scroll)
+        this.element.scrollTop = 0;
+
+        // Set flag to allow normal scrolling operations
+        this._initializing = false;
+
+        // Add a small delay before allowing scrolling to work normally
+        setTimeout(() => {
+          this._scrollLocked = false;
+          // If user has already interacted, then allow scroll to bottom
+          if (this._userInteracted) {
+            this.scrollToBottom(true);
+          }
+        }, 100);
+      });
+    });
+  }
+
+  // Modify printWelcome to not trigger auto-scroll
   printWelcome() {
+    // Lock scrolling during welcome message
+    this._scrollLocked = true;
+
     const welcomeLines = this.options.welcomeMessage.split("\n");
     welcomeLines.forEach((line) => {
-      this.printLine(line, "success");
+      this.printLine(line, "success", false); // Don't scroll
     });
 
     const dateString = new Date().toLocaleString();
-    this.printLine(`System initialized at: ${dateString}`, "success");
-    this.printLine('Type "help" to see available commands.', "warning");
-    this.printLine(""); // Empty line for spacing
+    this.printLine(`System initialized at: ${dateString}`, "success", false);
+    this.printLine('Type "help" to see available commands.', "warning", false);
+    this.printLine("", "", false); // Empty line for spacing
   }
 
   createNewInput() {
@@ -111,6 +146,11 @@ class Terminal {
 
     // Initial positioning of the cursor
     this.updateCursorPosition();
+
+    // Only scroll if not in initialization phase
+    if (!this._initializing) {
+      this.scrollToBottom();
+    }
   }
 
   // Improved method to update cursor position with better accuracy
@@ -193,6 +233,9 @@ class Terminal {
   }
 
   handleKeyDown(e) {
+    // Mark that user has interacted with the terminal
+    this._userInteracted = true;
+
     if (!this.currentInput) return;
 
     switch (e.key) {
@@ -275,11 +318,11 @@ class Terminal {
       }
     }
 
-    // Create new input
+    // Create new input (which no longer calls scrollToBottom internally)
     this.createNewInput();
 
-    // Scroll to bottom
-    this.element.scrollTop = this.element.scrollHeight;
+    // Single scroll call after command handling is complete
+    this.scrollToBottom(true); // Force scroll to ensure it happens
   }
 
   navigateHistory(direction) {
@@ -322,13 +365,14 @@ class Terminal {
     this.createNewInput();
   }
 
-  printLine(text, className = "") {
+  printLine(text, className = "", shouldScroll = true) {
     const line = document.createElement("div");
     line.className = `line ${className || ""}`;
 
     // Handle empty or null text
     if (!text) {
       this.terminalContent.appendChild(line);
+      if (shouldScroll && !this._initializing) this.scrollToBottom();
       return line;
     }
 
@@ -375,8 +419,8 @@ class Terminal {
       this.terminalContent.appendChild(lineElement);
     });
 
-    // Scroll to bottom
-    this.element.scrollTop = this.element.scrollHeight;
+    // Only scroll if shouldScroll is true AND not initializing
+    if (shouldScroll && !this._initializing) this.scrollToBottom();
 
     return line;
   }
@@ -386,7 +430,7 @@ class Terminal {
     className = "",
     speed = this.options.typingSpeed
   ) {
-    const line = this.printLine("", className);
+    const line = this.printLine("", className, false); // Don't scroll yet
 
     return new Promise((resolve) => {
       let i = 0;
@@ -395,14 +439,57 @@ class Terminal {
           const char = document.createTextNode(text[i]);
           line.appendChild(char);
           i++;
-          this.element.scrollTop = this.element.scrollHeight;
+          // Only scroll occasionally during typing for performance
+          if (i % 10 === 0) this.scrollToBottom();
           setTimeout(type, speed);
         } else {
+          // Final scroll after typing is complete
+          this.scrollToBottom();
           resolve();
         }
       };
       type();
     });
+  }
+
+  // Improved scrollToBottom with safeguards against unwanted scrolling
+  scrollToBottom(force = false) {
+    // Don't scroll during initialization or when locked
+    if ((this._initializing || this._scrollLocked) && !force) return;
+
+    // Clear any existing timeout
+    if (this._scrollTimeout) {
+      clearTimeout(this._scrollTimeout);
+    }
+
+    // Set a timeout to prevent multiple rapid scroll operations
+    this._scrollTimeout = setTimeout(() => {
+      // Use a single requestAnimationFrame for better performance
+      requestAnimationFrame(() => {
+        // Skip scrolling if terminal isn't visible yet
+        if (!this.element.offsetParent) {
+          this._scrollTimeout = null;
+          return;
+        }
+
+        const scrollHeight = this.element.scrollHeight;
+        const clientHeight = this.element.clientHeight;
+
+        // Only scroll if we're not already at the bottom or if forced
+        if (
+          force ||
+          this.element.scrollTop < scrollHeight - clientHeight - 10
+        ) {
+          try {
+            this.element.scrollTop = scrollHeight;
+          } catch (e) {
+            console.warn("Scroll failed:", e);
+          }
+        }
+
+        this._scrollTimeout = null;
+      });
+    }, 10);
   }
 
   printASCII(art, className = "ascii-art") {
@@ -415,6 +502,8 @@ class Terminal {
     line.appendChild(pre);
 
     this.terminalContent.appendChild(line);
+    this.scrollToBottom(); // Keep a single scroll after adding ASCII art
+
     return line;
   }
 
