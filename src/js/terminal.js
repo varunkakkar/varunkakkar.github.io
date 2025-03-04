@@ -321,8 +321,8 @@ class Terminal {
     // Create new input (which no longer calls scrollToBottom internally)
     this.createNewInput();
 
-    // Single scroll call after command handling is complete
-    this.scrollToBottom(true); // Force scroll to ensure it happens
+    // Use slight scroll instead of full forced scroll
+    this.scrollSlightly();
   }
 
   navigateHistory(direction) {
@@ -485,6 +485,54 @@ class Terminal {
           } catch (e) {
             console.warn("Scroll failed:", e);
           }
+        }
+
+        this._scrollTimeout = null;
+      });
+    }, 10);
+  }
+
+  // New method for subtle scrolling
+  scrollSlightly() {
+    // Don't scroll during initialization or when locked
+    if (this._initializing || this._scrollLocked) return;
+
+    // Clear any existing timeout
+    if (this._scrollTimeout) {
+      clearTimeout(this._scrollTimeout);
+    }
+
+    this._scrollTimeout = setTimeout(() => {
+      requestAnimationFrame(() => {
+        if (!this.element.offsetParent) {
+          this._scrollTimeout = null;
+          return;
+        }
+
+        const scrollHeight = this.element.scrollHeight;
+        const clientHeight = this.element.clientHeight;
+        const currentScroll = this.element.scrollTop;
+
+        // Calculate position to show just the last input line
+        // Get the last input line height or use a default
+        const lastLine = this.terminalContent.lastElementChild;
+        const lineHeight = lastLine ? lastLine.offsetHeight : 20;
+
+        // Calculate target scroll position to show at least the last 3 lines
+        const targetScroll = Math.max(
+          currentScroll,
+          scrollHeight - clientHeight - lineHeight * 3
+        );
+
+        // Smoothly scroll to the calculated position
+        try {
+          this.element.scrollTo({
+            top: targetScroll,
+            behavior: "smooth",
+          });
+        } catch (e) {
+          // Fallback for browsers that don't support smooth scrolling
+          this.element.scrollTop = targetScroll;
         }
 
         this._scrollTimeout = null;

@@ -13,6 +13,21 @@
         "tutorial",
         "keycloak"
       ]
+    },
+    {
+      "id": 2,
+      "title": "Modern Node.js and TypeScript in 2025: The State of the Ecosystem",
+      "date": "2025-03-04",
+      "slug": "modern-nodejs-typescript-2025",
+      "filename": "modern-nodejs-typescript-2025.md",
+      "tags": [
+        "javascript",
+        "typescript",
+        "nodejs",
+        "web development",
+        "frameworks",
+        "performance"
+      ]
     }
   ]
 }

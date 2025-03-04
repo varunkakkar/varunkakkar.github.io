@@ -1,4 +1,5 @@
 import blogLoader from "./blog-loader.js";
+import seoManager from "./seo-manager.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   // Get blog post ID or slug from URL parameters
@@ -50,8 +51,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Set up share buttons
     setupShareButtons(currentPost);
 
-    // Set OpenGraph meta tags for better sharing
-    updateMetaTags(currentPost);
+    // Apply SEO optimizations
+    seoManager.updatePostSeo(currentPost);
+
+    // Initialize Utterances comments with the current post title
+    initializeUtterances(currentPost.title);
   } catch (err) {
     displayError("Error loading blog post: " + err.message);
   }
@@ -119,23 +123,11 @@ function navigateToBlogPost(postId) {
   window.location.href = `blog.html?id=${postId}`;
 }
 
+// Remove or modify this function as its functionality is now handled by seoManager
 function updateMetaTags(post) {
-  // Update OpenGraph tags for better social sharing
-  const ogTitle = document.querySelector('meta[property="og:title"]');
-  const ogDesc = document.querySelector('meta[property="og:description"]');
-
-  if (ogTitle) ogTitle.setAttribute("content", post.title);
-  if (ogDesc)
-    ogDesc.setAttribute(
-      "content",
-      `${post.title} - Read this post on my terminal portfolio`
-    );
-
-  // Update meta description
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) {
-    metaDesc.setAttribute("content", `${post.title} - ${post.tags.join(", ")}`);
-  }
+  // This function is now replaced by seoManager.updatePostSeo
+  // You can remove it or keep it as a simple redirect to the new function
+  seoManager.updatePostSeo(post);
 }
 
 function animateContent() {
@@ -580,4 +572,33 @@ function setupShareButtons(post) {
     });
     shareContainer.appendChild(btn);
   });
+}
+
+// Add this new function to initialize Utterances
+function initializeUtterances(postTitle) {
+  // Remove any existing Utterances script
+  const existingScript = document.querySelector(".utterances-script");
+  if (existingScript) {
+    existingScript.remove();
+  }
+
+  const commentsContainer = document.getElementById("comments-container");
+  if (!commentsContainer) return;
+
+  // Clear the container
+  commentsContainer.innerHTML = "";
+
+  // Create the script element
+  const script = document.createElement("script");
+  script.src = "https://utteranc.es/client.js";
+  script.setAttribute("repo", "varunkakkar/varunkakkar.github.io");
+  script.setAttribute("issue-term", postTitle); // Use the exact post title
+  script.setAttribute("theme", "github-dark");
+  script.setAttribute("crossorigin", "anonymous");
+  script.setAttribute("async", "");
+  script.setAttribute("defer", "");
+  script.className = "utterances-script";
+
+  // Append to container
+  commentsContainer.appendChild(script);
 }
