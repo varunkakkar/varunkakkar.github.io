@@ -28,6 +28,21 @@
         "frameworks",
         "performance"
       ]
+    },
+    {
+      "id": 3,
+      "title": "Automating GitHub Authentication with GitHub Actions",
+      "date": "2025-03-10",
+      "slug": "automating-github-actions",
+      "filename": "automating-github-actions-workflow.md",
+      "tags": [
+        "github",
+        "automation",
+        "ci-cd",
+        "ssh",
+        "security",
+        "devops"
+      ]
     }
   ]
 }
